@@ -16,11 +16,15 @@ export const createUser = async(req: Request, res: Response)=>{
     }
     const salted = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password,salted);
+    let role = "Member";
+    if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
+      role = "Admin";
+    }
     const newUser = new User({
       name,
       email,
       password:hashedPassword,
-      role:"Member"
+      role:role
     });
     
     await newUser.save();

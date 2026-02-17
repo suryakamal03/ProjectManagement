@@ -1,6 +1,9 @@
 import express,{Request,Response} from 'express';
 import mongoose from 'mongoose';
-import Router from './routes/user.routes';
+import userRouter from './routes/user.routes';
+import projectRouter from './routes/project.routes';
+import taskRouter from './routes/task.routes';
+import aiRouter from './routes/ai.routes';
 import dotenv from 'dotenv';
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -15,7 +18,10 @@ const connectDB = async () =>{
     console.log("error in connecting MONGODB",error)
   }
 }
-app.use("/api/user",Router);
+app.use("/api/user",userRouter);
+app.use("/api/project",projectRouter);
+app.use("/api/project",taskRouter);
+app.use("/api/ai", aiRouter);
 app.listen(PORT,()=>{
   console.log("The server is running",PORT);
   connectDB();

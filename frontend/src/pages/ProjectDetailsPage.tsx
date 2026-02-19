@@ -213,7 +213,7 @@ export default function ProjectDetailsPage() {
         title: taskFormData.title.trim(),
       });
       setTaskFormData({ ...taskFormData, description: response.data.description });
-    } catch (error) {
+    } catch {
       setError('Failed to generate description');
     } finally {
       setGeneratingDescription(false);
@@ -235,7 +235,7 @@ export default function ProjectDetailsPage() {
         description: taskFormData.description.trim(),
       });
       setTaskFormData({ ...taskFormData, priority: response.data.priority });
-    } catch (error) {
+    } catch {
       setError('Failed to check priority');
     } finally {
       setCheckingPriority(false);
@@ -272,14 +272,14 @@ export default function ProjectDetailsPage() {
       const opt = {
         margin: 10,
         filename: `${project?.title} summary.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
       };
       
       // Generate and download PDF
       html2pdf().set(opt).from(element).save();
-    } catch (error) {
+    } catch {
       setError('Failed to generate summary');
     } finally {
       setAiLoading(false);
@@ -316,14 +316,14 @@ export default function ProjectDetailsPage() {
       const opt = {
         margin: 10,
         filename: `${project?.title} report.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
       };
       
       // Generate and download PDF
       html2pdf().set(opt).from(element).save();
-    } catch (error) {
+    } catch {
       setError('Failed to generate report');
     } finally {
       setAiLoading(false);
@@ -454,36 +454,6 @@ export default function ProjectDetailsPage() {
       status: project.status,
     });
     setShowEditProjectModal(true);
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'High':
-        return 'bg-red-100 text-red-700 border-red-200';
-      case 'Medium':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'Low':
-        return 'bg-blue-100 text-blue-700 border-blue-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Done':
-        return 'bg-green-100 text-green-700 border-green-200';
-      case 'InProgress':
-        return 'bg-purple-100 text-purple-700 border-purple-200';
-      case 'Todo':
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
-    }
-  };
-
-  const getStatusDisplay = (status: string) => {
-    return status === 'InProgress' ? 'In Progress' : status;
   };
 
   if (loading) {

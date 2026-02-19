@@ -10,15 +10,22 @@ export const createTask = async(req: Request, res: Response) => {
     const project = await Project.findById(ProjectId);
     const userId = (req as any).user.id;
     const { title, description, assignedTo,priority,status,dueDate } = req.body;
-    if(!title || !description || !assignedTo || !priority || !status || !dueDate){
+    if(!title || !assignedTo || !priority || !status || !dueDate){
       return res.status(400).json({message:"Please fill all the fields,task creation failed"});
     }
     if(!project){
-  return res.status(404).json({message:"Project not found"});
-}
+      return res.status(404).json({message:"Project not found"});
+    }
     if(userRole !== "Admin" && !project.assignedMembers.some((member:any) => member.toString() === userId)){
-  return res.status(403).json({message:"Access denied"});
-}
+      return res.status(403).json({message:"Access denied"});
+    }
+    
+    // Automatically add the assigned user to the project if not already a member
+    if(!project.assignedMembers.some((member:any) => member.toString() === assignedTo)){
+      project.assignedMembers.push(assignedTo);
+      await project.save();
+    }
+    
     const newTask = new Task({
       projectId: ProjectId,
       title,
@@ -29,7 +36,9 @@ export const createTask = async(req: Request, res: Response) => {
       dueDate
     });
     await newTask.save();
-    res.status(201).json({message:"Task created successfully", task:newTask});
+    
+    const populatedTask = await Task.findById(newTask._id).populate("assignedTo", "name email");
+    res.status(201).json({message:"Task created successfully", task: populatedTask});
   }catch(error){
     res.status(500).json({message:"Server error on creating task", error});
     console.error("Task creation error:", error);

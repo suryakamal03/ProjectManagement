@@ -102,23 +102,44 @@ export const assignMember = async(req: Request, res: Response) => {
     const userId = (req as any).user.id;
     const projectId = req.params.id;
     const { memberId } = req.body;
+    
+    if(!memberId){
+      return res.status(400).json({message:"Member ID is required"});
+    }
+    
     const project = await Project.findById(projectId);
    
     if(!project){
       return res.status(404).json({message:"Project not found"});
     }
-      if(userRole !== "Admin"){
-  return res.status(403).json({message:"Access denied.Admin only."});
-}
-    if(project.assignedMembers.includes(memberId)){
+    
+    if(userRole !== "Admin"){
+      return res.status(403).json({message:"Access denied.Admin only."});
+    }
+    
+    // Check if member already exists
+    if(project.assignedMembers.some((member: any) => member.toString() === memberId)){
       return res.status(400).json({message:"Member already assigned to this project"});
+    }
+    
+    // Verify the user exists
+    const userToAssign = await User.findById(memberId);
+    if(!userToAssign){
+      return res.status(404).json({message:"User not found"});
     }
    
     project.assignedMembers.push(memberId);
     await project.save();
-    res.status(200).json({message:"Member assigned to project successfully", project});
+    
+    // Populate the project with user details before sending response
+    const populatedProject = await Project.findById(projectId)
+      .populate("createdBy", "name email")
+      .populate("assignedMembers", "name email");
+    
+    res.status(200).json({message:"Member assigned to project successfully", project: populatedProject});
 
   } catch (error) {
+    console.error("Error in assignMember:", error);
     res.status(500).json({message:"Server error on assigning member to project", error});
   }
 }

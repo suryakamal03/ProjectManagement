@@ -1,6 +1,12 @@
-import {createUser,LoginUser} from "../controllers/User.controllers";
+import {createUser,LoginUser,getAllUsers,adminCreateUser,updateUserRole,deleteUser} from "../controllers/User.controllers";
 import express from "express";
+import { authMiddleware } from "../middleware/user.middleware";
+import { isAdmin } from "../middleware/role.middleware";
 const router = express.Router();
 router.post("/register",createUser);
 router.post("/login",LoginUser);
+router.get("/all",authMiddleware,isAdmin,getAllUsers);
+router.post("/create",authMiddleware,isAdmin,adminCreateUser);
+router.put("/:id/role",authMiddleware,isAdmin,updateUserRole);
+router.delete("/:id",authMiddleware,isAdmin,deleteUser);
 export default router;

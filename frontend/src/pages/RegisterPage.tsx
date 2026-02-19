@@ -55,9 +55,6 @@ export default function RegisterPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Create Account
           </h1>
-          <p className="text-gray-600 text-[15px]">
-            Enter your details below to set up your workspace.
-          </p>
         </div>
 
         {/* Error Message */}
@@ -185,22 +182,6 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          {/* Role Assignment Info Box */}
-          <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 flex gap-3">
-            <div className="shrink-0">
-              <svg className="w-5 h-5 text-blue-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="text-[15px] font-semibold text-gray-900 mb-1">
-                Initial Role Assignment
-              </h3>
-              <p className="text-[14px] text-gray-600 leading-relaxed">
-                By default, all new accounts are assigned the <span className="font-semibold text-blue-600">Member</span> role. Administrative access can be granted by workspace owners later.
-              </p>
-            </div>
-          </div>
 
           {/* Submit Button */}
           <button

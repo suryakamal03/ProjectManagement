@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "https://projectmanagement-2-7pb6.onrender.com/api",
 });
 
 axiosInstance.interceptors.request.use(

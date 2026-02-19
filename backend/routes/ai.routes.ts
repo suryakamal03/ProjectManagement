@@ -1,6 +1,6 @@
 import express from "express";
 import { authMiddleware } from "../middleware/user.middleware";
-import { generateDescription,SuggestPriority,generateSummary,generateWeeklyReport} from "../controllers/AI.controllers";
+import { generateDescription,SuggestPriority,generateSummary,generateWeeklyReport} from "../controllers/Ai.controllers";
 
 const router = express.Router();
 router.post("/generate-description", authMiddleware, generateDescription);

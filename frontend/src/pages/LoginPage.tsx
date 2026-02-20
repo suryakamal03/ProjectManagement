@@ -43,7 +43,7 @@ export default function LoginPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <span className="text-3xl font-bold text-blue-600">ForgeFlow</span>
+          <span className="text-3xl font-bold text-blue-600">Forge</span>
         </div>
 
         {/* Heading */}

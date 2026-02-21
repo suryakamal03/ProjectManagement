@@ -6,11 +6,11 @@ A full-stack Project Management System developed as part of an internship evalua
 
 ## Overview
 
-This system allows teams to manage projects and tasks securely with proper server-side role enforcement.
+This system allows teams to manage projects and tasks securely with proper server-side enforcement.
 
 The application demonstrates:
 
-- Clean modular backend architecture
+- Modular backend architecture
 - JWT-based authentication
 - Role-Based Access Control (Admin and Member)
 - Project and Task management (CRUD)
@@ -22,35 +22,18 @@ The application demonstrates:
 
 ## Authentication
 
-- Email and password login
-- JWT-based authentication
-- Password hashing using bcrypt
-- Protected API routes using middleware
-- Authorization header: `Bearer <token>`
-
-Authentication and authorization are enforced at the backend level.
+JWT-based authentication is implemented with bcrypt password hashing and middleware-based token verification. All protected routes require a valid `Authorization: Bearer <token>` header. Authentication is enforced at the backend.
 
 ---
 
 ## Role-Based Access Control (RBAC)
 
-Two roles are supported:
+Two roles are supported: **Admin** and **Member**.
 
-### Admin
-- Create, update, and delete projects
-- Assign members to projects
-- Manage users
-- Create, update, and delete tasks
-- Full system access
+- **Admin**: Full project, task, and user management access.
+- **Member**: Can view assigned projects and create/update tasks within permitted scope.
 
-### Member
-- View only assigned projects
-- Create tasks within assigned projects
-- Update permitted tasks
-- Cannot create or delete projects
-- Cannot access other users’ projects
-
-All access restrictions are enforced at the server level using middleware.
+All role restrictions are enforced at the server level via middleware validation.
 
 ---
 
@@ -61,7 +44,7 @@ Each project includes:
 - Title
 - Description
 - CreatedBy
-- AssignedMembers (array)
+- AssignedMembers
 - Status (Active / Completed)
 - CreatedAt
 
@@ -90,7 +73,7 @@ All permissions are validated at the backend.
 - AI-powered task suggestions
 - Project analysis functionality
 - Modular AI service layer
-- Easily replaceable with another AI provider
+- Easily replaceable AI provider
 
 ---
 
@@ -132,7 +115,7 @@ backend/
 ```
 
 - Controllers handle request logic
-- Middleware enforces JWT verification and RBAC
+- Middleware enforces JWT and RBAC
 - Services contain business logic (AI integration)
 - Routes define REST API endpoints
 - Models define MongoDB schemas
@@ -177,10 +160,16 @@ GEMINI_API_KEY=your_gemini_api_key
 
 ### Frontend (.env)
 
-Create a `.env` file inside the `frontend/` directory:
+For local development:
 
 ```
-VITE_API_URL=http://localhost:5000/api || Add your backend url localhost 
+VITE_API_URL=http://localhost:5000/api
+```
+
+For production deployment:
+
+```
+VITE_API_URL=https://projectmanagement-2-7pb6.onrender.com/api
 ```
 
 Do not commit `.env` files to version control.
@@ -203,6 +192,11 @@ cd ProjectManagement
 ```
 cd backend
 npm install
+
+For development:
+npm run dev
+
+For production build:
 npm run build
 npm run start
 ```
@@ -234,13 +228,11 @@ http://localhost:5173
 ## API Endpoints
 
 ### Authentication
-
 - POST `/api/user/register`
 - POST `/api/user/login`
 - GET `/api/user/me`
 
 ### Projects
-
 - GET `/api/project`
 - GET `/api/project/:id`
 - POST `/api/project` (Admin Only)
@@ -248,7 +240,6 @@ http://localhost:5173
 - DELETE `/api/project/:id` (Admin Only)
 
 ### Tasks
-
 - GET `/api/project/:projectId/tasks`
 - GET `/api/project/tasks/:id`
 - POST `/api/project/:projectId/tasks` (Admin and Assigned Members)
@@ -256,7 +247,6 @@ http://localhost:5173
 - DELETE `/api/project/tasks/:id` (Admin Only)
 
 ### AI
-
 - POST `/api/ai/suggest`
 - POST `/api/ai/analyze`
 
@@ -264,8 +254,11 @@ http://localhost:5173
 
 ## Deployment
 
-Frontend (Vercel):
-https://project-management-ruby-five.vercel.app/login
+Frontend (Vercel):  
+https://project-management-ruby-five.vercel.app
+
+Backend (Render):  
+https://projectmanagement-2-7pb6.onrender.com/api
 
 ---
 

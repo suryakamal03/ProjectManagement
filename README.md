@@ -180,7 +180,7 @@ GEMINI_API_KEY=your_gemini_api_key
 Create a `.env` file inside the `frontend/` directory:
 
 ```
-VITE_API_URL=https://projectmanagement-2-7pb6.onrender.com/api
+VITE_API_URL=http://localhost:5000/api || Add your backend url localhost 
 ```
 
 Do not commit `.env` files to version control.
@@ -263,9 +263,6 @@ http://localhost:5173
 ---
 
 ## Deployment
-
-Backend (Render):
-https://projectmanagement-2-7pb6.onrender.com/api
 
 Frontend (Vercel):
 https://project-management-ruby-five.vercel.app/login

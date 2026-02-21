@@ -11,12 +11,10 @@ import ProjectDetailsPage from './pages/ProjectDetailsPage';
 function App() {
   const { isAuthenticated, isAdmin } = useAuth();
 
-  // Protected Route Component
   const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
   };
 
-  // Admin Only Route Component
   const AdminRoute = ({ children }: { children: React.ReactNode }) => {
     return isAuthenticated && isAdmin() ? <>{children}</> : <Navigate to="/dashboard" />;
   };

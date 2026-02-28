@@ -20,6 +20,9 @@ export const createUser = async(req: Request, res: Response)=>{
     if(email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD){
       role = "Admin";
     }
+    if(email === process.env.MANAGER_EMAIL && password === process.env.MANAGER_PASSWORD){
+      role = "Manager";
+    }
     const newUser = new User({
       name,
       email,
@@ -161,3 +164,4 @@ export const deleteUser = async(req: Request, res: Response)=>{
     res.status(500).json({message:"Server error on deleting user",error});
   }
 }
+

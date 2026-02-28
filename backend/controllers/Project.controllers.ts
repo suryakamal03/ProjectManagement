@@ -31,7 +31,7 @@ export const getProjects = async (req: Request, res: Response) => {
     if(!UserId){
       return res.status(401).json({message:"Unauthorized"});
     }
-    if(userRole === "Admin"){
+    if(userRole === "Admin" || userRole === "Manager"){
       const projects = await Project.find().populate("createdBy", "name email").populate("assignedMembers", "name email");
       res.status(200).json({projects});
     }else{
@@ -143,3 +143,4 @@ export const assignMember = async(req: Request, res: Response) => {
     res.status(500).json({message:"Server error on assigning member to project", error});
   }
 }
+

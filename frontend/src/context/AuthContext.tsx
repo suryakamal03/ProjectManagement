@@ -6,7 +6,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'Admin' | 'Member';
+  role: 'Admin' | 'Manager' | 'Member';
 }
 
 interface AuthContextType {
@@ -103,6 +103,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return user?.role === 'Admin';
   };
 
+  const isManager = () => {
+    return user?.role === 'Manager';
+  }
+
   const value: AuthContextType = {
     user,
     token,
@@ -112,6 +116,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     register,
     logout,
     isAdmin,
+    isManager
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

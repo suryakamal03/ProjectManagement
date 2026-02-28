@@ -16,7 +16,7 @@ export const createTask = async(req: Request, res: Response) => {
     if(!project){
       return res.status(404).json({message:"Project not found"});
     }
-    if(userRole !== "Admin" && !project.assignedMembers.some((member:any) => member.toString() === userId)){
+    if(userRole !== "Admin" && !project.assignedMembers.some((member:any) => member.toString() === userId) && userRole === "Manager"){
       return res.status(403).json({message:"Access denied"});
     }
     
@@ -57,7 +57,14 @@ export const getTasks = async(req: Request, res: Response) => {
 if(userRole !== "Admin" && !project.assignedMembers.some((member:any) => member.toString() === userId)){
   return res.status(403).json({message:"Access denied"});
 }
+if(userRole === "Manager"){
+  const tasks = await Task.find({projectId: ProjectId, assignedTo: userId}).populate("assignedTo", "name email");
+  if(!project){
+    return res.status(404).json({message:"Project not found"});
+  }
+  return res.status(200).json({project,tasks});
 
+}
     const tasks = await Task.find({projectId: ProjectId}).populate("assignedTo", "name email");
 
     res.status(200).json({tasks});
@@ -93,7 +100,7 @@ export const updateTask = async(req: Request, res: Response) => {
     if(!task){
       return res.status(404).json({message:"Task not found"});
     }
-    if(userRole !== "Admin" && task.assignedTo.toString() !== userId){
+    if(userRole !== "Admin" && task.assignedTo.toString() !== userId && userRole !== "Manager"){
       return res.status(403).json({message:"Access denied"});
     }
     const { title, description, assignedTo, priority, status, dueDate } = req.body;
